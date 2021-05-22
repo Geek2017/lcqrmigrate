@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="QrApp" data-theme="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#0134d4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags-->
+    <!-- Title-->
+    <script src="./assets/AngularJS/angular.js"></script>
+    <script src="./assets/AngularJS/angular-route.js"></script>
+
+    <!-- <script src="./assets/firebase/fbsdk.js"></script> -->
+    <script src="./assets/js/jquery.min.js"></script>
+    <script src="./assets/js/c2i.js"></script>
+    <script src="./assets/js/h2c.js"></script>
+    <title>SANTO DOMINGO QR-CODE</title>
+    <!-- Fonts-->
+
+    <link rel="icon" type="image/png" href="./assets/img/qr.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+    <!-- CSS Libraries-->
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./assets/css/animate.css">
+    <link rel="stylesheet" href="./assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="./assets/css/ion.rangeSlider.min.css">
+    <link rel="stylesheet" href="./assets/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="./assets/css/apexcharts.css">
+    <!-- Core Stylesheet-->
+
+
+    <!-- Web App Manifest-->
+    <!-- <link rel="manifest" href="manifest.json"> -->
+    <script>
+        $(document).keydown(function(event) {
+            if (event.keyCode == 123) { // Prevent F12
+                return false;
+            } else if (event.shiftKey && event.keyCode == 73) { // Prevent Ctrl+Shift+I  
+                return false;
+            } else if (event.altKey) { // Prevent Ctrl+Shift+I  
+                return false;
+            }
+        });
+
+        $(document).on("contextmenu", function(e) {
+
+            e.preventDefault();
+        });
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyA4ddQ9ijyHe3dggpo29rESX20ntXWuIpk",
+            authDomain: "sd-qr-97dd0.firebaseapp.com",
+            databaseURL: "https://legazpiqr-default-rtdb.firebaseio.com",
+            projectId: "sd-qr-97dd0",
+            storageBucket: "sd-qr-97dd0.appspot.com",
+            messagingSenderId: "267901257339",
+            appId: "1:267901257339:web:61f47ff3af1e5b849e84de",
+            measurementId: "G-HZ8E671Y37"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />
+</head>
+
+<!-- mysdbpassw00rd -->
+
+<body>
+    <!-- Preloader-->
+    <div class="preloader d-flex align-items-center justify-content-center" id="preloader">
+        <div class="spinner-grow text-primary" role="status">
+            <div class="sr-only">Loading...</div>
+        </div>
+    </div>
+
+
+
+    <div class="row-fluid" ng-view>
+
+    </div>
+
+    <!-- All JavaScript Files-->
+    <script src='./assets/js/detect.js'></script>
+
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="./assets/js/waypoints.min.js"></script>
+    <script src="./assets/js/jquery.easing.min.js"></script>
+    <script src="./assets/js/wow.min.js"></script>
+    <script src="./assets/js/owl.carousel.min.js"></script>
+    <script src="./assets/js/jquery.counterup.min.js"></script>
+    <script src="./assets/js/jquery.countdown.min.js"></script>
+    <script src="./assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="./assets/js/isotope.pkgd.min.js"></script>
+    <script src="./assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="./assets/js/default/dark-mode-switch.js"></script>
+    <script src="./assets/js/ion.rangeSlider.min.js"></script>
+    <script src="./assets/js/jquery.dataTables.min.js"></script>
+    <script src="./assets/js/default/active.js"></script>
+    <script src="./assets/js/default/clipboard.js"></script>
+
+
+    <script src="./assets/animation/jquery.fittext.js"></script>
+    <script src="./assets/animation/jquery.lettering.js"></script>
+    <script src="./assets/animation/jquery.textillate.js"></script>
+
+
+
+    <script src='./assets/js/qr.js'></script>
+    <script src="./app.js"></script>
+    <script src="./controller/enrollCtrl.js"></script>
+    <script src="./controller/loginCtrl.js"></script>
+
+</body>
+
+</html>
