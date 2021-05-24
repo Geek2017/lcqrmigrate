@@ -68,7 +68,7 @@
                                     <tr ng-repeat="registered in registereds | startFrom:currentPage*pageSize | limitTo:pageSize | filter:registered ">
 
                                         <td>{{registereds.indexOf(registered) + 1}}</td>
-                                        <th>CoVax No-{{registered.qrid}}</th>
+                                        <th>{{registered.qrid}}</th>
                                         <td>{{registered.fullname}}</td>
                                         <td>{{registered.sex}}</td>
                                         <td>{{registered.brgy}}</td>
@@ -76,7 +76,7 @@
                                         <td>{{registered.usertype}}</td>
                                         <td>{{registered.decision}}</td>
                                         <td>
-                                            <button type="button" class="btn btn-success w-100" data-ng-click="qrid(registered)">
+                                            <button type="button" class="btn btn-danger w-100" data-ng-click="qrid(registered)">
                                                 <i class="fa fa-qrcode"></i> QrID
                                             </button>
                                         </td>
@@ -99,11 +99,11 @@
 
             </div>
             <div class="btn-group btn-group-xs pull-right card-body" style="padding-top: 0px!important;">
-                <button class="btn btn-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                <button class="btn btn-info" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
                     Back
                 </button>
                 <button class="btn btn-info">{{currentPage+1}} of {{numberOfPages()}}</button>
-                <button class="btn btn-primary" ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+                <button class="btn btn-info" ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
                     Next
                 </button>
             </div>
@@ -860,7 +860,7 @@
                         <br>
                     </div>
                     <div class="login-meta-data px-4 text-center ">
-                        <button class="btn btn-success btn-lg w-100" id="submit" type="submit"><span class="btntxt">
+                        <button class="btn btn-info btn-lg w-100" id="submit" type="submit"><span class="btntxt">
                                 Isumite
                                 ang Datos/Submit Data</span>
                             <i class="fa fa-refresh fa-spin spin" style="font-size:24px"></i></button>
@@ -872,6 +872,7 @@
         </div>
 
     </div>
+
 </div>
 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -882,7 +883,7 @@
                 <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mb-0">{{scsmsg}}</p>
+                <p class="mb-0">Data successfully saved!</p>
             </div>
         </div>
     </div>
@@ -900,7 +901,7 @@
                                 <tr>
 
                                     <th colspan="2">
-                                        <center><img width="30%" src="./assets/img/lguleg.png" alt=""><br>
+                                        <center><img width="30%" src="./assets/img/logo.png" alt=""><br>
                                             <strong>
                                                 <h4>Republic of the Philippines </h4>
                                                 <p >City Government of Legazpi</p>

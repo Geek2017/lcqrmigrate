@@ -1,4 +1,4 @@
-angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter) {
+angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter, $timeout) {
 
     $('table').hide();
     $('.idhide').hide();
@@ -29,126 +29,90 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
         localStorage.clear()
         sessionStorage.clear()
         firebase.auth().signOut();
-        window.location.href = "/#"
+        window.location.href = "./"
     });
-
 
 
     firebase.auth().onAuthStateChanged(function(user) {
+
         if (user) {
+            console.log(user.phoneNumber)
 
-            try {
-                $http.get('https://api.autoserved.com/count.php').success(function(response) {
-                    const count = response[0][0].count
+            var ref = firebase.database().ref("registrant");
+            ref.on("value", function(snapshot) {
 
-                    console.log(response[0][0].count);
+                const rdata = snapshot.numChildren();
 
-                    var equ = parseInt(count) + 1;
-                    $scope.covaxid = "CoVax No-" + equ;
+                var equ = parseInt(rdata) + 1;
 
-                    console.log(user.phoneNumber)
-                    $('.mobileno').val(user.phoneNumber);
+                var num = user.phoneNumber;
 
-                    var num = user.phoneNumber;
+                $('.covaxid').val("CoVax No-" + equ);
 
-                    var nnum = num.replace("+", "");
-                    $scope.registereds;
-                    try {
-                        $http.get('https://api.autoserved.com/readinfo.php?contactno=' + nnum).success(function(response) {
+                $('.mobileno').val(num);
 
-
-                            var ndata = [];
-                            if (response.length) {
-                                angular.forEach(response, function(value, key) {
-
-                                    var dname = value.fullname;
-
-                                    var res = dname.split(",");
-
-                                    // console.log(res[1], res[0])
-
-                                    let resfm = res[1];
-
-                                    let sresfm = resfm.split(' ')
-
-                                    console.log(resfm)
-
-                                    const rname0 = res[0] + ', ' + sresfm[2] + ' ' + sresfm[3] + ' ' + sresfm[1];
-                                    const rname00 = rname0.replace(/undefined/i, " ");
-                                    const rname1 = res[0] + ', ' + sresfm[1];
-
-                                    let nid = value.qrid.replace(/CoVax No-/i, " ");
-
-                                    var tpd0 = { id: value.id, fullname: rname00, contactno: value.contactno, age: value.age, brgy: value.brgy, decision: value.decision, qrid: nid, sex: value.sex, age: value.age, usertype: value.usertype, created_at: value.created_at }
-
-                                    var tpd1 = { id: value.id, fullname: rname1, contactno: value.contactno, age: value.age, brgy: value.brgy, decision: value.decision, qrid: nid, sex: value.sex, age: value.age, usertype: value.usertype, created_at: value.created_at }
-
-
-                                    if (typeof sresfm[2] === 'undefined') {
-                                        console.log(tpd1);
-                                        ndata.push(tpd1);
-                                    } else {
-                                        console.log(tpd0);
-                                        ndata.push(tpd0);
-                                    }
-
-                                    console.log(ndata);
-
-                                    return $scope.registereds = ndata;
-                                });
-
-                            } else {
-                                $(".loader").hide();
-                                $(".nodb").show();
-                            }
+                var nnum = num.replace("+", "");
 
 
 
+                firebase.database().ref('/registrant/').orderByChild('contactno').on("value", function(snapshot) {
+                    let cdata = user.phoneNumber;
+                    var rdata = snapshot.val();
+                    console.log(snapshot.val())
 
-                            $scope.currentPage = 0;
-                            $scope.pageSize = 5;
-                            $scope.data = [];
+                    $scope.currentPage = 0;
+                    $scope.pageSize = 5;
+                    $scope.rdata = [];
 
-
-
-                            if (response.length) {
-                                $(".loader").hide();
-                                $('table').show();
-
-
-                                $scope.numberOfPages = () => {
-                                    return Math.ceil(
-                                        $scope.data.length / $scope.pageSize
-                                    );
-                                }
-
-                                for (var i = 0; i < response.length; i++) {
-                                    $scope.data.push(`Question number ${i}`);
-                                }
-                            } else {
-                                $(".loader").hide();
-
-                                $('table').show();
-                            }
-
-                        });
-                    } catch (error) {
-                        console.log(error)
+                    $scope.numberOfPages = () => {
+                        return Math.ceil(
+                            $scope.rdata.length / $scope.pageSize
+                        );
                     }
 
-                }).catch(function(data) {
-                    console.log(data)
+                    for (var i = 0; i < 10; i++) {
+                        $scope.rdata.push(`Question number ${i}`);
+                    }
+
+
+                    $timeout(function() {
+
+                        $scope.$apply(function() {
+                            let returnArr = [];
+                            snapshot.forEach(childSnapshot => {
+                                let item = childSnapshot.val();
+                                item.key = childSnapshot.key;
+
+                                console.log(item, parseInt(cdata));
+
+                                if (item.contactno == parseInt(cdata)) {
+
+                                    returnArr.push(item);
+                                }
+
+                            });
+                            $scope.registereds = returnArr;
+                            console.log(returnArr);
+
+
+
+                            if (!rdata.length) {
+                                $(".loader").hide();
+                                $('table').show()
+                            }
+                        });
+
+                    })
+
                 });
-            } catch (error) {
-                alert(error, 'Check your Connection make sure its stable!')
-            }
+
+            });
 
         } else {
-            window.location.href = '/';
+            window.location.href = "./"
         }
+
     });
-
-
 
 
     var md = new MobileDetect(window.navigator.userAgent);
@@ -244,7 +208,6 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
 
     console.log(localStorage.getItem("footprint"));
-
 
 
     $(".urc").click(function() {
@@ -890,21 +853,17 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             qrtobase64();
 
 
-
             var qrdata1 = qrdata1[0];
-
-
 
             var strjcinfo = JSON.stringify(jcinfo);
             var strjqna = JSON.stringify(jqna);
-
 
             $(".btntxt").hide();
             $(".loader").show();
             $('table').hide();
             $("#submit").prop("disabled", true);
 
-            var fnstr = $scope.lastName + ", " + $scope.middleName + " " + $scope.firstName;
+            var fnstr = $scope.lastName + ", " + $scope.firstName + " " + $scope.middleName;
 
             var newfn = fnstr.replace(/undefined/i, " ");
 
@@ -915,6 +874,8 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             var nnum = num.replace("+", "");
 
             let ldata = JSON.stringify(localStorage.getItem("footprint"));
+
+
             var data = {
                 contactno: nnum,
                 qrid: $('.covaxid').val(),
@@ -932,31 +893,26 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             }
             console.log(data);
 
-            $http.post("https://api.autoserved.com/insert.php", data).then(function(response) {
+            try {
+                var uid = firebase.database().ref().child('/registrant/').push().key;
+                var updates = {};
 
-                console.log(response.data.message)
+                updates['/registrant/' + uid] = data;
+                firebase.database().ref().update(updates);
 
-                if (response.status == 200) {
-                    if (response.data.message == "Oops! required fields empty. Please check your input" || response.data.message == "Please fill all the fields all required * ") {
-                        console.log("Error:", response.data.message);
-                        $scope.scsmsg = response.data.message + " please try again"
-                    } else {
-
-                        console.log(response.data.message);
-                        $scope.scsmsg = response.data.message
-                        $('#staticBackdrop').modal('show');
-
-                        setTimeout(function() {
-                            $('#staticBackdrop').modal('hide');
-                            location.replace('#/')
-                            location.replace('#/enroll')
-                        }, 3000);
-                    }
-                } else {
-
+                if (updates) {
+                    $('#staticBackdrop').modal('show');
+                    console.log(updates)
+                    setTimeout(function() {
+                        $('#staticBackdrop').modal('hide');
+                        location.replace('#/')
+                        location.replace(' #/enroll')
+                    }, 3000)
                 }
 
-            });
+            } catch (error) {
+                alert(error)
+            }
 
 
 
@@ -974,6 +930,7 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             var num = $('.mobileno').val();
 
             var nnum = num.replace("+", "");
+
             var data = {
                 contactno: nnum,
                 qrid: $('.covaxid').val(),
@@ -997,31 +954,27 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             $('table').hide();
             $("#submit").prop("disabled", true);
 
-            $http.post("https://api.autoserved.com/insert.php", data).then(function(response) {
+            try {
+                var uid = firebase.database().ref().child('/registrant/').push().key;
 
-                console.log(response.data.message)
+                var updates = {};
+                updates['/registrant/' + uid] = data;
+                firebase.database().ref().update(updates);
 
-                if (response.status == 200) {
-                    if (response.data.message == "Oops! required fields empty. Please check your input" || response.data.message == "Please fill all the fields all required * ") {
-                        console.log("Error:", response.data.message);
-                        $scope.scsmsg = response.data.message + " please try again"
-                    } else {
-
-                        console.log(response.data.message);
-                        $scope.scsmsg = response.data.message
-                        $('#staticBackdrop').modal('show');
-
-                        setTimeout(function() {
-                            $('#staticBackdrop').modal('hide');
-                            location.replace('#/')
-                            location.replace('#/enroll')
-                        }, 3000);
-                    }
-                } else {
-
+                if (updates) {
+                    $('#staticBackdrop').modal('show');
+                    console.log(updates)
+                    setTimeout(function() {
+                        $('#staticBackdrop').modal('hide');
+                        location.replace('#/')
+                        location.replace(' #/enroll')
+                    }, 3000)
                 }
+            } catch (error) {
+                alert(error)
+            }
 
-            });
+
         }
     });
 
@@ -1046,21 +999,15 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
         console.log(registered)
 
-        $http.get('https://api.autoserved.com/getuserpic.php/?id=' + registered.id).success(function(response) {
-            console.log(response)
-
-            if (registered.decision == "Opo/Yes") {
-
-                $('#qrid').modal('show');
-                $scope.cimg = response[0].img;
-                $scope.cqr = response[0].qrcode
-                $scope.cfullname = registered.fullname
-                $scope.cbrgy = registered.brgy
-            } else {
-                alert("Only Affirmative Registrant can have QrID");
-            }
-        });
-
+        if (registered.decision == "Opo/Yes") {
+            $scope.cimg = registered.img;
+            $scope.cqr = registered.qrcode;
+            $scope.cfullname = registered.fullname;
+            $scope.cbrgy = registered.brgy;
+            $('#qrid').modal('show');
+        } else {
+            alert("Only Affirmative Registrant can have QrID");
+        }
 
 
     }
@@ -1077,12 +1024,13 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                 nWindow.document.body.appendChild(canvas);
                 nWindow.focus();
                 nWindow.print();
-
+                $('#qrid').modal('hide');
                 location.replace('#/')
-                location.replace('#/spindex')
+
 
                 setTimeout(function() {
                     nWindow.close();
+
                 }, 1000)
 
             }
@@ -1097,8 +1045,10 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
         html2canvas($("#qrids"), {
             onrendered: function(canvas) {
                 saveAs(canvas.toDataURL(), 'qrid.png');
+                $('#qrid').modal('hide');
             }
         });
+
     }
 
 
