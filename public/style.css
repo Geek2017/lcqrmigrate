@@ -76,6 +76,17 @@ Created: December 10, 2020
 
 /* :: Preloader CSS */
 
+.footer {
+    float: right!important;
+    position: fixed!important;
+    left: 0!important;
+    bottom: 0!important;
+    width: 100%!important;
+    color: white!important;
+    text-align: right!important;
+    padding-right: 8%!important;
+}
+
 .css {
     background-color: #0d6efd57!important;
     width: 25%!important;
@@ -92,12 +103,32 @@ Created: December 10, 2020
         width: 100%!important;
         height: 180px!important;
     }
+    .footer {
+        float: right!important;
+        position: fixed!important;
+        left: 0!important;
+        bottom: 0!important;
+        width: 100%!important;
+        color: white!important;
+        text-align: right!important;
+        padding-right: 30%!important;
+    }
 }
 
 @media only screen and (max-width: 411px) {
     .qidimg {
         width: 100%!important;
         height: 180px!important;
+    }
+    .footer {
+        float: right!important;
+        position: fixed!important;
+        left: 0!important;
+        bottom: 0!important;
+        width: 100%!important;
+        color: white!important;
+        text-align: right!important;
+        padding-right: 33%!important;
     }
 }
 
@@ -106,6 +137,16 @@ Created: December 10, 2020
         width: 100%!important;
         height: 0px!important;
     }
+    .footer {
+        float: right!important;
+        position: fixed!important;
+        left: 0!important;
+        bottom: 0!important;
+        width: 100%!important;
+        color: white!important;
+        text-align: right!important;
+        padding-right: 30%!important;
+    }
 }
 
 @media only screen and (max-width: 375px) {
@@ -113,12 +154,32 @@ Created: December 10, 2020
         width: 100%!important;
         height: 180px!important;
     }
+    .footer {
+        float: right!important;
+        position: fixed!important;
+        left: 0!important;
+        bottom: 0!important;
+        width: 100%!important;
+        color: white!important;
+        text-align: right!important;
+        padding-right: 30%!important;
+    }
 }
 
 @media only screen and (max-width: 414px) {
     .qidimg {
         width: 100%!important;
         height: 180px!important;
+    }
+    .footer {
+        float: right!important;
+        position: fixed!important;
+        left: 0!important;
+        bottom: 0!important;
+        width: 100%!important;
+        color: white!important;
+        text-align: right!important;
+        padding-right: 32%!important;
     }
 }
 
