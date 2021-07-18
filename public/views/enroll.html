@@ -12,6 +12,15 @@
         }
     });
 </script> -->
+<style type="text/css">
+    .hidden {
+        display: none;
+    }
+    
+    .visible {
+        display: block;
+    }
+</style>
 <div class="page-content-wrapper py-3">
     <div class="container">
         <!-- User Information-->
@@ -68,7 +77,7 @@
                                     <tr ng-repeat="registered in registereds | startFrom:currentPage*pageSize | limitTo:pageSize | filter:registered ">
 
                                         <td>{{registereds.indexOf(registered) + 1}}</td>
-                                        <th>{{registered.qrid}}</th>
+                                        <td>{{registered.qrid}}</td>
                                         <td>{{registered.fullname}}</td>
                                         <td>{{registered.sex}}</td>
                                         <td>{{registered.brgy}}</td>
@@ -77,8 +86,12 @@
                                         <td>{{registered.decision}}</td>
                                         <td>
                                             <button type="button" class="btn btn-danger w-100" data-ng-click="qrid(registered)">
-                                                <i class="fa fa-qrcode"></i> QrID
-                                            </button>
+                                           
+                                          <strong class="bqid"> <i class="fa fa-qrcode"></i> QrID</strong>
+                                          <!-- <strong id="fimg" class="hidden" > <i class="fa fa-refresh fa-spin" style="font-size:20px" ></i></strong> -->
+                                        </button>
+
+
                                         </td>
 
                                     </tr>
@@ -164,7 +177,7 @@
 
                         <div class="form-group mb-3">
                             <label class="form-label" for="mobileno">Registration ID</label>
-                            <input class="form-control covaxid" ng-model="covaxid" disabled>
+                            <input class="form-control covaxid" disabled>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label" for="mobileno">Contact #/Numero * </label>
@@ -343,77 +356,30 @@
                             <label class="form-label" for="address">Barangay</label>
 
                             <select class="pe-4 form-select form-select-sm form-control-clicked Barangay" ng-model="barangay" name="Barangay" aria-label="Default select example">
-                                <option value="">Select</option>
-                                <option value="1‑Ems-Barrio"> 1‑Em's Barrio </option>
-                                <option value="2‑Ems-Barrio South"> 2‑Em's Barrio South </option>
-                                <option value="3‑Ems-Barrio East"> 3‑Em's Barrio East </option>
-                                <option value="4‑Sagpon-Poblacion"> 4‑Sagpon Poblacion </option>
-                                <option value="5‑Sagmin-Poblacion"> 5‑Sagmin Poblacion </option>
-                                <option value="6‑Bañadero-Poblacion"> 6‑Bañadero Poblacion </option>
-                                <option value="7‑Baño"> 7‑Baño </option>
-                                <option value="8‑Bagumbayan"> 8‑Bagumbayan </option>
-                                <option value="9‑Pinaric"> 9‑Pinaric </option>
-                                <option value="10‑Cabugao"> 10‑Cabugao </option>
-                                <option value="11‑Maoyod-Poblacion"> 11‑Maoyod Poblacion </option>
-                                <option value="12‑Tula‑tula"> 12‑Tula‑tula </option>
-                                <option value="13‑Ilawod-West-Poblacion"> 13‑Ilawod West Poblacion </option>
-                                <option value="14‑Ilawod-Poblacion"> 14‑Ilawod Poblacion </option>
-                                <option value="15‑Ilawod-East-Poblacion"> 15‑Ilawod East Poblacion </option>
-                                <option value="16‑Kawit‑East-Washington-Drive"> 16‑Kawit‑East Washington Drive </option>
-                                <option value="17‑Rizal-Street, Ilawod"> 17‑Rizal Street, Ilawod </option>
-                                <option value="18‑Cabagñan-West"> 18‑Cabagñan West </option>
-                                <option value="19‑Cabagñan"> 19‑Cabagñan </option>
-                                <option value="20‑Cabagñan-East"> 20‑Cabagñan East </option>
-                                <option value="21‑Binanuahan-West"> 21‑Binanuahan West </option>
-                                <option value="22‑Binanuahan-East"> 22‑Binanuahan East </option>
-                                <option value="23‑Imperial-Court-Subd."> 23‑Imperial Court Subd. </option>
-                                <option value="24‑Rizal-Street"> 24‑Rizal Street </option>
-                                <option value="25‑Lapu‑lapu"> 25‑Lapu‑lapu </option>
-                                <option value="26‑Dinagaan"> 26‑Dinagaan </option>
-                                <option value="27‑Victory-Village South"> 27‑Victory Village South </option>
-                                <option value="28‑Victory-Village North"> 28‑Victory Village North </option>
-                                <option value="29‑Sabang"> 29‑Sabang </option>
-                                <option value="30‑Pigcale"> 30‑Pigcale </option>
-                                <option value="31‑Centro‑Baybay"> 31‑Centro‑Baybay </option>
-                                <option value="32‑San-Roque"> 32‑San Roque </option>
-                                <option value="33‑PNR‑Peñaranda St.‑Iraya"> 33‑PNR‑Peñaranda St.‑Iraya </option>
-                                <option value="34‑Oro-Site‑Magallanes-St."> 34‑Oro Site‑Magallanes St. </option>
-                                <option value="35‑Tinago"> 35‑Tinago </option>
-                                <option value="36‑Kapantawan"> 36‑Kapantawan </option>
-                                <option value="37‑Bitano"> 37‑Bitano </option>
-                                <option value="38‑Gogon"> 38‑Gogon </option>
-                                <option value="39‑Bonot"> 39‑Bonot </option>
-                                <option value="40‑Cruzada"> 40‑Cruzada </option>
-                                <option value="41‑Bogtong"> 41‑Bogtong </option>
-                                <option value="42‑Rawis"> 42‑Rawis </option>
-                                <option value="43‑Tamaoyan"> 43‑Tamaoyan </option>
-                                <option value="44‑Pawa"> 44‑Pawa </option>
-                                <option value="45‑Dita"> 45‑Dita </option>
-                                <option value="46‑San-Joaquin"> 46‑San Joaquin </option>
-                                <option value="47‑Arimbay"> 47‑Arimbay </option>
-                                <option value="48‑Bagong Abre"> 48‑Bagong Abre </option>
-                                <option value="49‑Bigaa"> 49‑Bigaa </option>
-                                <option value="50‑Padang"> 50‑Padang </option>
-                                <option value="51‑Buyuan"> 51‑Buyuan </option>
-                                <option value="52‑Matanag"> 52‑Matanag </option>
-                                <option value="53‑Bonga"> 53‑Bonga </option>
-                                <option value="54‑Mabinit"> 54‑Mabinit </option>
-                                <option value="55‑Estanza"> 55‑Estanza </option>
-                                <option value="56‑Taysan"> 56‑Taysan </option>
-                                <option value="57‑Dap‑dap"> 57‑Dap‑dap </option>
-                                <option value="58‑Buragwis"> 58‑Buragwis </option>
-                                <option value="59‑Puro"> 59‑Puro </option>
-                                <option value="60‑Lamba"> 60‑Lamba </option>
-                                <option value="61‑Maslog"> 61‑Maslog </option>
-                                <option value="62‑Homapon"> 62‑Homapon </option>
-                                <option value="63‑Mariawa"> 63‑Mariawa </option>
-                                <option value="64‑Bagacay"> 64‑Bagacay </option>
-                                <option value="65‑Imalnod"> 65‑Imalnod </option>
-                                <option value="66‑Banquerohan"> 66‑Banquerohan </option>
-                                <option value="67‑Bariis"> 67‑Bariis </option>
-                                <option value="68‑San Francisco"> 68‑San Francisco </option>
-                                <option value="69‑Buenavista"> 69‑Buenavista </option>
-                                <option value="70‑Cagbacong"> 70‑Cagbacong </option>
+                                <option value="" selected>Select</option>
+                                <option value="Alimsog">Alimsog</option>
+                                <option value="Bagong San Roque">Bagong San Roque</option>
+                                <option value="Buhatan">Buhatan</option>
+                                <option value="Calayucay">Calayucay</option>
+                                <option value="Del Rosario Poblacion">Del Rosario Poblacion</option>
+                                <option value="Fidel Surtida">Fidel Surtida</option>
+                                <option value="Lidong">Lidong</option>
+                                <option value="Market Site Poblacion">Market Site Poblacion</option>
+                                <option value="Nagsiya Poblacion">Nagsiya Poblacion</option>
+                                <option value="Pandayan Poblacion">Pandayan Poblacion</option>
+                                <option value="Salvacion">Salvacion</option>
+                                <option value="San Andres">San Andres</option>
+                                <option value="San Fernando">San Fernando</option>
+                                <option value="San Francisco Poblacion">San Francisco Poblacion</option>
+                                <option value="San Isidro">San Isidro</option>
+                                <option value="San Juan Poblacion">San Juan Poblacion</option>
+                                <option value="San Pedro Poblacion">San Pedro Poblacion</option>
+                                <option value="San Rafael Poblacion">San Rafael Poblacion</option>
+                                <option value="San Roque">San Roque</option>
+                                <option value="San Vicente Poblacion">San Vicente Poblacion</option>
+                                <option value="Santa Misericordia">Santa Misericordia</option>
+                                <option value="Santo Domingo Poblacion">Santo Domingo Poblacion</option>
+                                <option value="Santo Niño">Santo Niño</option>
                             </select>
                         </div>
                         <div class="form-group mb-3">
@@ -894,7 +860,13 @@
         <div class="modal-content" id="qrids">
             <div class="jarviswidget" style="margin: 0!important;">
 
-                <div role="content">
+                <div class="loading0">
+                    <center>
+                        <h1><i class="fa fa-refresh fa-spin" style="font-size:40px"></i> Hang on ...</h1>
+                    </center>
+                </div>
+
+                <div class="loading1 hidden" role="content">
                     <div class="widget-body no-padding">
                         <table id="capture" width="100%" class="" style="border: 2px solid blue!important;">
                             <tbody>
@@ -904,7 +876,7 @@
                                         <center><img width="30%" src="./assets/img/logo.png" alt=""><br>
                                             <strong>
                                                 <h4>Republic of the Philippines </h4>
-                                                <p >City Government of Legazpi</p>
+                                                <p >Municipality Of Sto Domingo Albay</p>
                                             </strong>
 
                                             <strong>Covid-19</strong><br>

@@ -1,5 +1,6 @@
 angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter, $timeout) {
 
+
     $('table').hide();
     $('.idhide').hide();
     $(".nodb").hide();
@@ -32,13 +33,84 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
         window.location.href = "./"
     });
 
+    // var ref = firebase.database().ref("registrant");
+    // ref.remove();
 
     firebase.auth().onAuthStateChanged(function(user) {
 
         if (user) {
-            console.log(user.phoneNumber)
+            console.log(user)
+
+            // firebase.database().ref('/masterlist/').orderByChild('contactno').on("value", function(snapshot) {
+            //     let cdata = user.phoneNumber;
+            //     var rdata = snapshot.val().length;
+
+            //     console.log(rdata)
+
+            //     var counter = 0;
+            //     $timeout(function() {
+            //         $scope.$apply(function() {
+            //             // let returnArr = [];
+            //             snapshot.forEach(childSnapshot => {
+            //                 let item = childSnapshot.val();
+            //                 item.key = childSnapshot.key;
+
+
+            //                 if (counter <= 24853) {
+            //                     counter++;
+
+            //                     console.log(item, counter, rdata)
+            //                     var data = {
+            //                         id: item[0],
+            //                         qrid: item[1],
+            //                         contactno: item[2],
+            //                         fullname: item[3],
+            //                         sex: item[4],
+            //                         brgy: item[5],
+            //                         age: item[6],
+            //                         decision: item[7],
+            //                         usertype: item[8]
+            //                     }
+
+            //                     console.log(data);
+
+            //                     var uid = firebase.database().ref().child('/registrant/').push().key;
+            //                     var updates = {};
+
+            //                     updates['/registrant/' + uid] = data;
+            //                     firebase.database().ref().update(updates);
+
+            //                     if (updates) {
+            //                         console.log(updates)
+            //                     }
+            //                 }
+            //             });
+
+
+            //             // $scope.registereds = returnArr;
+            //             // console.log($scope.registereds);
+
+
+
+            //             // if (!rdata) {
+            //             //     $(".loader").hide();
+            //             //     $('table').hide()
+            //             //     $(".nodb").show()
+            //             //     $('.covaxid').val("CoVax No-" + "001");
+            //             // } else {
+            //             //     $(".loader").hide();
+            //             //     $('table').show()
+            //             //     $(".nodb").hide()
+            //             // }
+            //         });
+
+            //     })
+
+            // });
+
 
             var ref = firebase.database().ref("registrant");
+
             ref.on("value", function(snapshot) {
 
                 const rdata = snapshot.numChildren();
@@ -55,58 +127,64 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
 
 
-                firebase.database().ref('/registrant/').orderByChild('contactno').on("value", function(snapshot) {
-                    let cdata = user.phoneNumber;
-                    var rdata = snapshot.val();
-                    console.log(snapshot.val())
-
-                    $scope.currentPage = 0;
-                    $scope.pageSize = 5;
-                    $scope.rdata = [];
-
-                    $scope.numberOfPages = () => {
-                        return Math.ceil(
-                            $scope.rdata.length / $scope.pageSize
-                        );
-                    }
-
-                    for (var i = 0; i < 10; i++) {
-                        $scope.rdata.push(`Question number ${i}`);
-                    }
-
-
-                    $timeout(function() {
-
-                        $scope.$apply(function() {
-                            let returnArr = [];
-                            snapshot.forEach(childSnapshot => {
-                                let item = childSnapshot.val();
-                                item.key = childSnapshot.key;
-
-                                console.log(item, parseInt(cdata));
-
-                                if (item.contactno == parseInt(cdata)) {
-
-                                    returnArr.push(item);
-                                }
-
-                            });
-                            $scope.registereds = returnArr;
-                            console.log(returnArr);
-
-
-
-                            if (!rdata.length) {
-                                $(".loader").hide();
-                                $('table').show()
-                            }
-                        });
-
-                    })
-
-                });
 
             });
+
+            var nnum = user.phoneNumber.replace("+", "");
+
+            // $(".loader").hide();
+            // $('table').hide()
+            // $(".nodb").show()
+
+
+            let returnArr = []
+
+            console.log(parseInt(nnum));
+
+            ref.orderByChild('contactno').equalTo(parseInt(nnum)).on('child_added', (snapshot) => {
+
+                console.log(snapshot.val());
+
+                returnArr.push(snapshot.val());
+
+                console.log(returnArr);
+
+                $timeout(function() {
+                    var ldata = JSON.stringify(returnArr);
+                    $scope.$apply(function() {
+                        if (!ldata) {
+                            $(".loader").hide();
+                            $('table').hide()
+                            $(".nodb").show()
+
+                        } else {
+                            $(".loader").hide();
+                            $('table').show()
+                            $(".nodb").hide()
+                            console.log(JSON.parse(ldata))
+                            $scope.registereds = JSON.parse(ldata);
+
+                            $scope.currentPage = 0;
+                            $scope.pageSize = 5;
+                            $scope.rdata = [];
+
+
+                            $scope.numberOfPages = () => {
+                                return Math.ceil(
+                                    $scope.rdata.length / $scope.pageSize
+                                );
+                            }
+
+                            for (var i = 0; i < 10; i++) {
+                                $scope.rdata.push(`Question number ${i}`);
+                            }
+                        }
+                    });
+                });
+
+
+            });
+
 
         } else {
             window.location.href = "./"
@@ -877,7 +955,7 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
 
             var data = {
-                contactno: nnum,
+                contactno: parseInt(nnum),
                 qrid: $('.covaxid').val(),
                 fullname: newfn,
                 sex: $scope.gender,
@@ -995,19 +1073,49 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
     });
 
+
+
     $scope.qrid = function(registered) {
 
-        console.log(registered)
+        console.log(registered.id)
+        console.log(registered.img)
+        $scope.cimg = "./assets/img/imgl.gif";
+        $scope.cqr = "./assets/img/imgl.gif";
+        if (registered.img === undefined) {
+            // $("#fimg").removeClass("hidden")
+            // $('.bqid').hide();
+            if (registered.decision == "Opo/Yes") {
+                $('#qrid').modal('show');
+                $http.get('https://cloudology.info/mysqlapi/getuserpic.php/?id=' + registered.id).success(function(response) {
+                    console.log(response)
 
-        if (registered.decision == "Opo/Yes") {
-            $scope.cimg = registered.img;
-            $scope.cqr = registered.qrcode;
-            $scope.cfullname = registered.fullname;
-            $scope.cbrgy = registered.brgy;
-            $('#qrid').modal('show');
+                    $scope.cimg = response[0].img;
+                    $scope.cqr = response[0].qrcode;
+                    $scope.cfullname = registered.fullname;
+                    $scope.cbrgy = registered.brgy;
+
+                    $(".loading0").addClass("hidden")
+                    $(".loading1").removeClass("hidden")
+
+                });
+            } else {
+                alert("Only Affirmative Registrant can have QrID");
+            }
+
         } else {
-            alert("Only Affirmative Registrant can have QrID");
+            if (registered.decision == "Opo/Yes") {
+                $scope.cimg = registered.img;
+                $scope.cqr = registered.qrcode;
+                $scope.cfullname = registered.fullname;
+                $scope.cbrgy = registered.brgy;
+                $('#qrid').modal('show');
+            } else {
+                alert("Only Affirmative Registrant can have QrID");
+            }
         }
+
+
+
 
 
     }
