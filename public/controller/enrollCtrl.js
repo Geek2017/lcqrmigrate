@@ -41,72 +41,85 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
         if (user) {
             console.log(user)
 
-            // firebase.database().ref('/masterlist/').orderByChild('contactno').on("value", function(snapshot) {
-            //     let cdata = user.phoneNumber;
-            //     var rdata = snapshot.val().length;
+            firebase.database().ref('/masterlist/').orderByChild('contactno').on("value", function(snapshot) {
+                let cdata = user.phoneNumber;
+                var rdata = snapshot.val().length;
 
-            //     console.log(rdata)
+                console.log(rdata)
 
-            //     var counter = 0;
-            //     $timeout(function() {
-            //         $scope.$apply(function() {
-            //             // let returnArr = [];
-            //             snapshot.forEach(childSnapshot => {
-            //                 let item = childSnapshot.val();
-            //                 item.key = childSnapshot.key;
+                var counter = 0;
+                $timeout(function() {
+                    $scope.$apply(function() {
+                        // let returnArr = [];
+                        snapshot.forEach(childSnapshot => {
+                            let item = childSnapshot.val();
+                            item.key = childSnapshot.key;
+
+                            $http.get('https://api.autoserved.com/getuserpic.php/?id=' + item[0]).success(function(response) {
+                                console.log(response)
+                                var uid = firebase.database().ref().child('/imgs/').push().key;
+                                var updates = {};
+
+                                updates['/imgs/' + uid] = response[0];
+                                firebase.database().ref().update(updates);
+
+                                if (updates) {
+                                    console.log(updates)
+                                }
+                            });
+
+                            // if (counter !== 24853) {
+                            //     counter++;
+
+                            //     console.log(item, counter, rdata)
+                            //     var data = {
+                            //         id: item[0],
+                            //         qrid: item[1],
+                            //         contactno: item[2],
+                            //         fullname: item[3],
+                            //         sex: item[4],
+                            //         brgy: item[5],
+                            //         age: item[6],
+                            //         decision: item[7],
+                            //         usertype: item[8]
+                            //     }
+
+                            //     // console.log(data);
+
+                            //     // var uid = firebase.database().ref().child('/registrant/').push().key;
+                            //     // var updates = {};
+
+                            //     // updates['/registrant/' + uid] = data;
+                            //     // firebase.database().ref().update(updates);
+
+                            //     // if (updates) {
+                            //     //     console.log(updates)
+                            //     // }
+                            // }
+
+                        });
 
 
-            //                 if (counter <= 24853) {
-            //                     counter++;
-
-            //                     console.log(item, counter, rdata)
-            //                     var data = {
-            //                         id: item[0],
-            //                         qrid: item[1],
-            //                         contactno: item[2],
-            //                         fullname: item[3],
-            //                         sex: item[4],
-            //                         brgy: item[5],
-            //                         age: item[6],
-            //                         decision: item[7],
-            //                         usertype: item[8]
-            //                     }
-
-            //                     console.log(data);
-
-            //                     var uid = firebase.database().ref().child('/registrant/').push().key;
-            //                     var updates = {};
-
-            //                     updates['/registrant/' + uid] = data;
-            //                     firebase.database().ref().update(updates);
-
-            //                     if (updates) {
-            //                         console.log(updates)
-            //                     }
-            //                 }
-            //             });
-
-
-            //             // $scope.registereds = returnArr;
-            //             // console.log($scope.registereds);
+                        // $scope.registereds = returnArr;
+                        // console.log($scope.registereds);
 
 
 
-            //             // if (!rdata) {
-            //             //     $(".loader").hide();
-            //             //     $('table').hide()
-            //             //     $(".nodb").show()
-            //             //     $('.covaxid').val("CoVax No-" + "001");
-            //             // } else {
-            //             //     $(".loader").hide();
-            //             //     $('table').show()
-            //             //     $(".nodb").hide()
-            //             // }
-            //         });
+                        // if (!rdata) {
+                        //     $(".loader").hide();
+                        //     $('table').hide()
+                        //     $(".nodb").show()
+                        //     $('.covaxid').val("CoVax No-" + "001");
+                        // } else {
+                        //     $(".loader").hide();
+                        //     $('table').show()
+                        //     $(".nodb").hide()
+                        // }
+                    });
 
-            //     })
+                })
 
-            // });
+            });
 
 
             var ref = firebase.database().ref("registrant");
@@ -141,49 +154,49 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
             console.log(parseInt(nnum));
 
-            ref.orderByChild('contactno').equalTo(parseInt(nnum)).on('child_added', (snapshot) => {
+            // ref.orderByChild('contactno').equalTo(parseInt(nnum)).on('child_added', (snapshot) => {
 
-                console.log(snapshot.val());
+            //     console.log(snapshot.val());
 
-                returnArr.push(snapshot.val());
+            //     returnArr.push(snapshot.val());
 
-                console.log(returnArr);
+            //     console.log(returnArr);
 
-                $timeout(function() {
-                    var ldata = JSON.stringify(returnArr);
-                    $scope.$apply(function() {
-                        if (!ldata) {
-                            $(".loader").hide();
-                            $('table').hide()
-                            $(".nodb").show()
+            //     $timeout(function() {
+            //         var ldata = JSON.stringify(returnArr);
+            //         $scope.$apply(function() {
+            //             if (!ldata) {
+            //                 $(".loader").hide();
+            //                 $('table').hide()
+            //                 $(".nodb").show()
 
-                        } else {
-                            $(".loader").hide();
-                            $('table').show()
-                            $(".nodb").hide()
-                            console.log(JSON.parse(ldata))
-                            $scope.registereds = JSON.parse(ldata);
+            //             } else {
+            //                 $(".loader").hide();
+            //                 $('table').show()
+            //                 $(".nodb").hide()
+            //                 console.log(JSON.parse(ldata))
+            //                 $scope.registereds = JSON.parse(ldata);
 
-                            $scope.currentPage = 0;
-                            $scope.pageSize = 5;
-                            $scope.rdata = [];
-
-
-                            $scope.numberOfPages = () => {
-                                return Math.ceil(
-                                    $scope.rdata.length / $scope.pageSize
-                                );
-                            }
-
-                            for (var i = 0; i < 10; i++) {
-                                $scope.rdata.push(`Question number ${i}`);
-                            }
-                        }
-                    });
-                });
+            //                 $scope.currentPage = 0;
+            //                 $scope.pageSize = 5;
+            //                 $scope.rdata = [];
 
 
-            });
+            //                 $scope.numberOfPages = () => {
+            //                     return Math.ceil(
+            //                         $scope.rdata.length / $scope.pageSize
+            //                     );
+            //                 }
+
+            //                 for (var i = 0; i < 10; i++) {
+            //                     $scope.rdata.push(`Question number ${i}`);
+            //                 }
+            //             }
+            //         });
+            //     });
+
+
+            // });
 
 
         } else {
