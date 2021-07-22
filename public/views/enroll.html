@@ -99,7 +99,8 @@
                             </table>
                             <span class="loader">
                                 <i class="fa fa-refresh fa-spin" style="font-size:30px"></i>
-                                <h3>Hang on mate ...</h3>
+                                <h3>This might take a while kindly be patience.</h3>
+                                <h5><span id="timer"></span></h5>
                             </span>
                         </div>
                         <span class="nodb">
@@ -111,21 +112,34 @@
                 </center>
 
             </div>
+
             <div class="btn-group btn-group-xs pull-right card-body" style="padding-top: 0px!important;">
-                <button class="btn btn-info" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                <button class="btn btn-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
                     Back
                 </button>
                 <button class="btn btn-info">{{currentPage+1}} of {{numberOfPages()}}</button>
-                <button class="btn btn-info" ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+                <button class="btn btn-primary" ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
                     Next
                 </button>
             </div>
         </div>
 
+        <div class=" card user-data-card" style="padding-top: 0px!important;">
+            <div class="btn-group btn-group-lg pull-right card-body" style="padding-top: 30px!important;">
+                <button id="lmsd" class="btn btn-warning" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                 MY SAVED DATA
+                </button>
+
+                <button id="rasd" class="btn btn-success" ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+                  REGISTER ANEW
+                </button>
+            </div>
+        </div>
+        <br>
         <!-- User Meta Data-->
         <div class="card user-data-card infodata">
 
-            <div class="card-body ">
+            <div class="card-body mainhid">
 
 
                 <form id="enroll" name="form1" method="post">
@@ -846,10 +860,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title" id="staticBackdropLabel">Sucsess!</h6>
-                <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p class="mb-0">Data successfully saved!</p>
+                <button class="btn btn-success p-1 ms-auto" type="button" data-bs-dismiss="modal">Ok!</button>
             </div>
         </div>
     </div>
@@ -862,7 +876,7 @@
 
                 <div class="loading0">
                     <center>
-                        <h1><i class="fa fa-refresh fa-spin" style="font-size:40px"></i> Hang on ...</h1>
+                        <h1><i class="fa fa-refresh fa-spin" style="font-size:40px"></i> This might a While pls. be patience </h1>
                     </center>
                 </div>
 
