@@ -1,6 +1,6 @@
 // Application Modules and Routing
 angular
-    .module('QrApp', ['ngRoute'])
+    .module('QrApp', ['ngRoute', 'angularUtils.directives.dirPagination'])
     .config(function($routeProvider) {
         $routeProvider
             .when('/', {

@@ -57,80 +57,11 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
         window.location.href = "./"
     });
 
-    // var ref = firebase.database().ref("registrant");
-    // ref.remove();
 
     firebase.auth().onAuthStateChanged(function(user) {
 
         if (user) {
             console.log(user)
-
-            // firebase.database().ref('/masterlist/').orderByChild('contactno').on("value", function(snapshot) {
-            //     let cdata = user.phoneNumber;
-            //     var rdata = snapshot.val().length;
-
-            //     console.log(rdata)
-
-            //     var counter = 0;
-            //     $timeout(function() {
-            //         $scope.$apply(function() {
-            //             // let returnArr = [];
-            //             snapshot.forEach(childSnapshot => {
-            //                 let item = childSnapshot.val();
-            //                 item.key = childSnapshot.key;
-
-
-            //                 if (counter <= 24853) {
-            //                     counter++;
-
-            //                     console.log(item, counter, rdata)
-            //                     var data = {
-            //                         id: item[0],
-            //                         qrid: item[1],
-            //                         contactno: item[2],
-            //                         fullname: item[3],
-            //                         sex: item[4],
-            //                         brgy: item[5],
-            //                         age: item[6],
-            //                         decision: item[7],
-            //                         usertype: item[8]
-            //                     }
-
-            //                     console.log(data);
-
-            //                     // var uid = firebase.database().ref().child('/registrant/').push().key;
-            //                     // var updates = {};
-
-            //                     // updates['/registrant/' + uid] = data;
-            //                     // firebase.database().ref().update(updates);
-
-            //                     // if (updates) {
-            //                     //     console.log(updates)
-            //                     // }
-            //                 }
-            //             });
-
-
-            //             // $scope.registereds = returnArr;
-            //             // console.log($scope.registereds);
-
-
-
-            //             // if (!rdata) {
-            //             //     $(".loader").hide();
-            //             //     $('table').hide()
-            //             //     $(".nodb").show()
-            //             //     $('.covaxid').val("CoVax No-" + "001");
-            //             // } else {
-            //             //     $(".loader").hide();
-            //             //     $('table').show()
-            //             //     $(".nodb").hide()
-            //             // }
-            //         });
-
-            //     })
-
-            // });
 
 
             var ref = firebase.database().ref("registrant");
@@ -194,6 +125,10 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
                 console.log(returnArr);
 
+                $scope.currentPage = 1;
+                $scope.pageSize = 5;
+                $scope.pagedata = [];
+
                 $timeout(function() {
                     var ldata = JSON.stringify(returnArr);
                     $scope.$apply(function() {
@@ -209,24 +144,18 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                             console.log(JSON.parse(ldata))
                             $scope.registereds = JSON.parse(ldata);
 
-                            $scope.currentPage = 0;
-                            $scope.pageSize = 5;
-                            $scope.rdata = [];
 
-
-                            $scope.numberOfPages = () => {
-                                return Math.ceil(
-                                    $scope.rdata.length / $scope.pageSize
-                                );
-                            }
-
-                            for (var i = 0; i < 10; i++) {
-                                $scope.rdata.push(`Question number ${i}`);
-                            }
                         }
                     });
                 });
 
+                $scope.pageChangeHandler = function(num) {
+                    console.log('pagedata page changed to ' + num);
+                };
+
+                $scope.pageChangeHandler = function(num) {
+                    console.log('going to page ' + num);
+                };
 
             });
 
@@ -1051,6 +980,11 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
                     $('#qrid').modal('toggle');
 
+                    setTimeout(function() {
+                        location.replace('#/')
+                        location.replace(' #/enroll')
+                    }, 120000)
+
                 }
 
             } catch (error) {
@@ -1146,9 +1080,26 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
         console.log(registered.img)
         $scope.cimg = "./assets/img/imgl.gif";
         $scope.cqr = "./assets/img/imgl.gif";
-        if (registered.img === undefined) {
-            // $("#fimg").removeClass("hidden")
-            // $('.bqid').hide();
+        $scope.cfullname = "Loading...";
+        $scope.cbrgy = "Loading...";
+
+        if (registered.img) {
+            // alert('true')
+            if (registered.decision == "Opo/Yes") {
+                $scope.cimg = registered.img;
+                $scope.cqr = registered.qrcode;
+                $scope.cfullname = registered.fullname;
+                $scope.cbrgy = registered.brgy;
+                $('#qrid').modal('show');
+                $(".loading0").addClass("hidden")
+                $(".loading1").removeClass("hidden")
+
+            } else {
+                alert("Only Affirmative Registrant can have QrID");
+            }
+
+        } else {
+            // alert('false')
             if (registered.decision == "Opo/Yes") {
                 $('#qrid').modal('show');
                 $http.get('https://api.autoserved.com/getuserpic.php/?id=' + registered.id).success(function(response) {
@@ -1163,17 +1114,6 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                     $(".loading1").removeClass("hidden")
 
                 });
-            } else {
-                alert("Only Affirmative Registrant can have QrID");
-            }
-
-        } else {
-            if (registered.decision == "Opo/Yes") {
-                $scope.cimg = registered.img;
-                $scope.cqr = registered.qrcode;
-                $scope.cfullname = registered.fullname;
-                $scope.cbrgy = registered.brgy;
-                $('#qrid').modal('show');
             } else {
                 alert("Only Affirmative Registrant can have QrID");
             }
