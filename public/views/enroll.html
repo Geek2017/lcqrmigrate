@@ -20,6 +20,16 @@
     .visible {
         display: block;
     }
+    
+    .buttons {
+        width: 200%;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+    
+    .buttons button {
+        width: 100%;
+    }
 </style>
 <div class="page-content-wrapper py-3">
     <div class="container">
@@ -48,7 +58,7 @@
 
         <div class="card user-info-card mb-3 scroll">
             <div class="form-group card-body mb-3" style="padding-bottom: 0px!important;">
-                <input class="form-control" placeholder="Search Registrant" ng-model="registered">
+                <input class="form-control" placeholder="Search Registrant" ng-model="q">
 
 
             </div>
@@ -65,37 +75,39 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>QrNo</th>
                                         <th>Full Name</th>
                                         <th>Sex</th>
                                         <th>Brgy.</th>
                                         <th>Age</th>
                                         <th>Category</th>
-                                        <th>Decision</th>
+                                        <th class="w-40">Decision</th>
+                                        <th>Edit Info.</th>
                                         <th>Print/Download</th>
+
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr dir-paginate="registered in registereds| itemsPerPage: pageSize | filter:registered ">
+                                    <tr dir-paginate="registered in registereds | filter:q | itemsPerPage: pageSize ">
 
                                         <td>{{registereds.indexOf(registered) + 1}}</td>
-                                        <td>{{registered.qrid}}</td>
                                         <td>{{registered.fullname}}</td>
                                         <td>{{registered.sex}}</td>
                                         <td>{{registered.brgy}}</td>
                                         <td>{{registered.age}}</td>
                                         <td>{{registered.usertype}}</td>
                                         <td>{{registered.decision}}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger w-100" data-ng-click="qrid(registered)">
-                                           
-                                          <strong class="bqid"> <i class="fa fa-qrcode"></i> QrID</strong>
-                                          <!-- <strong id="fimg" class="hidden" > <i class="fa fa-refresh fa-spin" style="font-size:20px" ></i></strong> -->
-                                        </button>
-
-
+                                        <td class="text-center buttons">
+                                            <button type="button" class="fa fa-pencil btn btn-warning btn-lg" data-ng-click="editinfo(registered)">
+                                                <strong class=""> Edit</strong>
+                                            </button>
                                         </td>
+                                        <td class="text-center buttons">
+                                            <button type="button" class="fa fa-qrcode btn btn-info btn-lg " data-ng-click="qrid(registered)"> 
+                                                <strong class="bqid"> View</strong>
+                                            </button>
+                                        </td>
+
 
                                     </tr>
                                 </tbody>
@@ -369,30 +381,77 @@
                             <label class="form-label" for="address">Barangay</label>
 
                             <select class="pe-4 form-select form-select-sm form-control-clicked Barangay" ng-model="barangay" name="Barangay" aria-label="Default select example">
-                                <option value="" selected>Select</option>
-                                <option value="Alimsog">Alimsog</option>
-                                <option value="Bagong San Roque">Bagong San Roque</option>
-                                <option value="Buhatan">Buhatan</option>
-                                <option value="Calayucay">Calayucay</option>
-                                <option value="Del Rosario Poblacion">Del Rosario Poblacion</option>
-                                <option value="Fidel Surtida">Fidel Surtida</option>
-                                <option value="Lidong">Lidong</option>
-                                <option value="Market Site Poblacion">Market Site Poblacion</option>
-                                <option value="Nagsiya Poblacion">Nagsiya Poblacion</option>
-                                <option value="Pandayan Poblacion">Pandayan Poblacion</option>
-                                <option value="Salvacion">Salvacion</option>
-                                <option value="San Andres">San Andres</option>
-                                <option value="San Fernando">San Fernando</option>
-                                <option value="San Francisco Poblacion">San Francisco Poblacion</option>
-                                <option value="San Isidro">San Isidro</option>
-                                <option value="San Juan Poblacion">San Juan Poblacion</option>
-                                <option value="San Pedro Poblacion">San Pedro Poblacion</option>
-                                <option value="San Rafael Poblacion">San Rafael Poblacion</option>
-                                <option value="San Roque">San Roque</option>
-                                <option value="San Vicente Poblacion">San Vicente Poblacion</option>
-                                <option value="Santa Misericordia">Santa Misericordia</option>
-                                <option value="Santo Domingo Poblacion">Santo Domingo Poblacion</option>
-                                <option value="Santo Niño">Santo Niño</option>
+                                <option value="">Select</option>
+                                <option value="1‑Ems-Barrio"> 1‑Em's Barrio </option>
+                                <option value="2‑Ems-Barrio South"> 2‑Em's Barrio South </option>
+                                <option value="3‑Ems-Barrio East"> 3‑Em's Barrio East </option>
+                                <option value="4‑Sagpon-Poblacion"> 4‑Sagpon Poblacion </option>
+                                <option value="5‑Sagmin-Poblacion"> 5‑Sagmin Poblacion </option>
+                                <option value="6‑Bañadero-Poblacion"> 6‑Bañadero Poblacion </option>
+                                <option value="7‑Baño"> 7‑Baño </option>
+                                <option value="8‑Bagumbayan"> 8‑Bagumbayan </option>
+                                <option value="9‑Pinaric"> 9‑Pinaric </option>
+                                <option value="10‑Cabugao"> 10‑Cabugao </option>
+                                <option value="11‑Maoyod-Poblacion"> 11‑Maoyod Poblacion </option>
+                                <option value="12‑Tula‑tula"> 12‑Tula‑tula </option>
+                                <option value="13‑Ilawod-West-Poblacion"> 13‑Ilawod West Poblacion </option>
+                                <option value="14‑Ilawod-Poblacion"> 14‑Ilawod Poblacion </option>
+                                <option value="15‑Ilawod-East-Poblacion"> 15‑Ilawod East Poblacion </option>
+                                <option value="16‑Kawit‑East-Washington-Drive"> 16‑Kawit‑East Washington Drive </option>
+                                <option value="17‑Rizal-Street, Ilawod"> 17‑Rizal Street, Ilawod </option>
+                                <option value="18‑Cabagñan-West"> 18‑Cabagñan West </option>
+                                <option value="19‑Cabagñan"> 19‑Cabagñan </option>
+                                <option value="20‑Cabagñan-East"> 20‑Cabagñan East </option>
+                                <option value="21‑Binanuahan-West"> 21‑Binanuahan West </option>
+                                <option value="22‑Binanuahan-East"> 22‑Binanuahan East </option>
+                                <option value="23‑Imperial-Court-Subd."> 23‑Imperial Court Subd. </option>
+                                <option value="24‑Rizal-Street"> 24‑Rizal Street </option>
+                                <option value="25‑Lapu‑lapu"> 25‑Lapu‑lapu </option>
+                                <option value="26‑Dinagaan"> 26‑Dinagaan </option>
+                                <option value="27‑Victory-Village South"> 27‑Victory Village South </option>
+                                <option value="28‑Victory-Village North"> 28‑Victory Village North </option>
+                                <option value="29‑Sabang"> 29‑Sabang </option>
+                                <option value="30‑Pigcale"> 30‑Pigcale </option>
+                                <option value="31‑Centro‑Baybay"> 31‑Centro‑Baybay </option>
+                                <option value="32‑San-Roque"> 32‑San Roque </option>
+                                <option value="33‑PNR‑Peñaranda St.‑Iraya"> 33‑PNR‑Peñaranda St.‑Iraya </option>
+                                <option value="34‑Oro-Site‑Magallanes-St."> 34‑Oro Site‑Magallanes St. </option>
+                                <option value="35‑Tinago"> 35‑Tinago </option>
+                                <option value="36‑Kapantawan"> 36‑Kapantawan </option>
+                                <option value="37‑Bitano"> 37‑Bitano </option>
+                                <option value="38‑Gogon"> 38‑Gogon </option>
+                                <option value="39‑Bonot"> 39‑Bonot </option>
+                                <option value="40‑Cruzada"> 40‑Cruzada </option>
+                                <option value="41‑Bogtong"> 41‑Bogtong </option>
+                                <option value="42‑Rawis"> 42‑Rawis </option>
+                                <option value="43‑Tamaoyan"> 43‑Tamaoyan </option>
+                                <option value="44‑Pawa"> 44‑Pawa </option>
+                                <option value="45‑Dita"> 45‑Dita </option>
+                                <option value="46‑San-Joaquin"> 46‑San Joaquin </option>
+                                <option value="47‑Arimbay"> 47‑Arimbay </option>
+                                <option value="48‑Bagong Abre"> 48‑Bagong Abre </option>
+                                <option value="49‑Bigaa"> 49‑Bigaa </option>
+                                <option value="50‑Padang"> 50‑Padang </option>
+                                <option value="51‑Buyuan"> 51‑Buyuan </option>
+                                <option value="52‑Matanag"> 52‑Matanag </option>
+                                <option value="53‑Bonga"> 53‑Bonga </option>
+                                <option value="54‑Mabinit"> 54‑Mabinit </option>
+                                <option value="55‑Estanza"> 55‑Estanza </option>
+                                <option value="56‑Taysan"> 56‑Taysan </option>
+                                <option value="57‑Dap‑dap"> 57‑Dap‑dap </option>
+                                <option value="58‑Buragwis"> 58‑Buragwis </option>
+                                <option value="59‑Puro"> 59‑Puro </option>
+                                <option value="60‑Lamba"> 60‑Lamba </option>
+                                <option value="61‑Maslog"> 61‑Maslog </option>
+                                <option value="62‑Homapon"> 62‑Homapon </option>
+                                <option value="63‑Mariawa"> 63‑Mariawa </option>
+                                <option value="64‑Bagacay"> 64‑Bagacay </option>
+                                <option value="65‑Imalnod"> 65‑Imalnod </option>
+                                <option value="66‑Banquerohan"> 66‑Banquerohan </option>
+                                <option value="67‑Bariis"> 67‑Bariis </option>
+                                <option value="68‑San Francisco"> 68‑San Francisco </option>
+                                <option value="69‑Buenavista"> 69‑Buenavista </option>
+                                <option value="70‑Cagbacong"> 70‑Cagbacong </option>
                             </select>
                         </div>
                         <div class="form-group mb-3">
@@ -921,6 +980,194 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editinfo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <div class="form-group mb-3">
+                        <p>NOTE: This will allow you to update basic info. only if you need more assistance, kindly chat us on the messenger.</p>
+                        <label class="form-label" for="FirstName">Buong Pangalan/Fullname Name * </label>
+                        <input class="form-control FirstName" ng-model="registered.fullname" type="text" placeholder="Buong Pangalan/Fullname Name * ">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="address">Barangay</label>
+
+                        <select class="pe-4 form-select form-select-sm form-control-clicked Barangay" ng-model="registered.barangay" name="Barangay" aria-label="Default select example">
+                            <option value="">Select</option>
+                            <option value="1‑Ems-Barrio"> 1‑Em's Barrio </option>
+                            <option value="2‑Ems-Barrio South"> 2‑Em's Barrio South </option>
+                            <option value="3‑Ems-Barrio East"> 3‑Em's Barrio East </option>
+                            <option value="4‑Sagpon-Poblacion"> 4‑Sagpon Poblacion </option>
+                            <option value="5‑Sagmin-Poblacion"> 5‑Sagmin Poblacion </option>
+                            <option value="6‑Bañadero-Poblacion"> 6‑Bañadero Poblacion </option>
+                            <option value="7‑Baño"> 7‑Baño </option>
+                            <option value="8‑Bagumbayan"> 8‑Bagumbayan </option>
+                            <option value="9‑Pinaric"> 9‑Pinaric </option>
+                            <option value="10‑Cabugao"> 10‑Cabugao </option>
+                            <option value="11‑Maoyod-Poblacion"> 11‑Maoyod Poblacion </option>
+                            <option value="12‑Tula‑tula"> 12‑Tula‑tula </option>
+                            <option value="13‑Ilawod-West-Poblacion"> 13‑Ilawod West Poblacion </option>
+                            <option value="14‑Ilawod-Poblacion"> 14‑Ilawod Poblacion </option>
+                            <option value="15‑Ilawod-East-Poblacion"> 15‑Ilawod East Poblacion </option>
+                            <option value="16‑Kawit‑East-Washington-Drive"> 16‑Kawit‑East Washington Drive </option>
+                            <option value="17‑Rizal-Street, Ilawod"> 17‑Rizal Street, Ilawod </option>
+                            <option value="18‑Cabagñan-West"> 18‑Cabagñan West </option>
+                            <option value="19‑Cabagñan"> 19‑Cabagñan </option>
+                            <option value="20‑Cabagñan-East"> 20‑Cabagñan East </option>
+                            <option value="21‑Binanuahan-West"> 21‑Binanuahan West </option>
+                            <option value="22‑Binanuahan-East"> 22‑Binanuahan East </option>
+                            <option value="23‑Imperial-Court-Subd."> 23‑Imperial Court Subd. </option>
+                            <option value="24‑Rizal-Street"> 24‑Rizal Street </option>
+                            <option value="25‑Lapu‑lapu"> 25‑Lapu‑lapu </option>
+                            <option value="26‑Dinagaan"> 26‑Dinagaan </option>
+                            <option value="27‑Victory-Village South"> 27‑Victory Village South </option>
+                            <option value="28‑Victory-Village North"> 28‑Victory Village North </option>
+                            <option value="29‑Sabang"> 29‑Sabang </option>
+                            <option value="30‑Pigcale"> 30‑Pigcale </option>
+                            <option value="31‑Centro‑Baybay"> 31‑Centro‑Baybay </option>
+                            <option value="32‑San-Roque"> 32‑San Roque </option>
+                            <option value="33‑PNR‑Peñaranda St.‑Iraya"> 33‑PNR‑Peñaranda St.‑Iraya </option>
+                            <option value="34‑Oro-Site‑Magallanes-St."> 34‑Oro Site‑Magallanes St. </option>
+                            <option value="35‑Tinago"> 35‑Tinago </option>
+                            <option value="36‑Kapantawan"> 36‑Kapantawan </option>
+                            <option value="37‑Bitano"> 37‑Bitano </option>
+                            <option value="38‑Gogon"> 38‑Gogon </option>
+                            <option value="39‑Bonot"> 39‑Bonot </option>
+                            <option value="40‑Cruzada"> 40‑Cruzada </option>
+                            <option value="41‑Bogtong"> 41‑Bogtong </option>
+                            <option value="42‑Rawis"> 42‑Rawis </option>
+                            <option value="43‑Tamaoyan"> 43‑Tamaoyan </option>
+                            <option value="44‑Pawa"> 44‑Pawa </option>
+                            <option value="45‑Dita"> 45‑Dita </option>
+                            <option value="46‑San-Joaquin"> 46‑San Joaquin </option>
+                            <option value="47‑Arimbay"> 47‑Arimbay </option>
+                            <option value="48‑Bagong Abre"> 48‑Bagong Abre </option>
+                            <option value="49‑Bigaa"> 49‑Bigaa </option>
+                            <option value="50‑Padang"> 50‑Padang </option>
+                            <option value="51‑Buyuan"> 51‑Buyuan </option>
+                            <option value="52‑Matanag"> 52‑Matanag </option>
+                            <option value="53‑Bonga"> 53‑Bonga </option>
+                            <option value="54‑Mabinit"> 54‑Mabinit </option>
+                            <option value="55‑Estanza"> 55‑Estanza </option>
+                            <option value="56‑Taysan"> 56‑Taysan </option>
+                            <option value="57‑Dap‑dap"> 57‑Dap‑dap </option>
+                            <option value="58‑Buragwis"> 58‑Buragwis </option>
+                            <option value="59‑Puro"> 59‑Puro </option>
+                            <option value="60‑Lamba"> 60‑Lamba </option>
+                            <option value="61‑Maslog"> 61‑Maslog </option>
+                            <option value="62‑Homapon"> 62‑Homapon </option>
+                            <option value="63‑Mariawa"> 63‑Mariawa </option>
+                            <option value="64‑Bagacay"> 64‑Bagacay </option>
+                            <option value="65‑Imalnod"> 65‑Imalnod </option>
+                            <option value="66‑Banquerohan"> 66‑Banquerohan </option>
+                            <option value="67‑Bariis"> 67‑Bariis </option>
+                            <option value="68‑San Francisco"> 68‑San Francisco </option>
+                            <option value="69‑Buenavista"> 69‑Buenavista </option>
+                            <option value="70‑Cagbacong"> 70‑Cagbacong </option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">To which of the following groups do you belong? * </label>
+                        <select class="pe-4 form-select form-select-sm form-control-clicked flw0 " ng-model="registered.usertype" name="frontliner" aria-label="Default select example">
+                            <option value="">Select</option>
+                            <option value="Health Worker, Licensed/Professional (Public/Private)">Health Worker,
+                                Licensed/Professional (Public/Private)</option>
+                            <option value="Health Worker, Non-Professional (Public/Private)">Health Worker,
+                                Non-Professional (Public/Private)</option>
+                            <option value="Ancillary/Support Service Worker in a Health Facility (Public/Private)">
+                                Ancillary/Support Service Worker in a Health Facility (Public/Private)</option>
+                            <option
+                                value="Barangay Health Emergency Response Team (BHERT)/ Barangay Integrated Health Worker">
+                                Barangay Health Emergency Response Team (BHERT)/ Barangay Integrated Health Worker
+                            </option>
+                            <option value="Barangay Official">Barangay Official</option>
+                            <option value="Senior Citizen aged 60 years old and above">Senior Citizen aged 60 years
+                                old and above</option>
+                            <option
+                                value="Person with Co-morbidity/ies (not belonging to any of the preceding categories)">
+                                Person with Co-morbidity/ies (not belonging to any of the preceding categories)
+                            </option>
+                            <option
+                                value="Frontline Service Worker (Private) providing the following services: Agriculture, forestry and fishing; Mining and quarrying; Manufacturing; Electricity">
+                                <p>
+                                    Frontline Service Worker (Private) providing the following services:
+                                    Agriculture, forestry and fishing; Mining and quarrying; Manufacturing;
+                                    Electricity</p>
+                            </option>
+
+                            <option
+                                value="Gas and air-conditioning supply; Water supply, sewerage, and waste management; Transportation and storage; Accommodation and food service activities; Information and communication; Financial and insurance activities; Real estate activities; Professional, scientific and technical services;">
+                                <p>
+                                    Gas and air-conditioning supply; Water supply, sewerage, and waste management;
+                                    Transportation and storage; Accommodation and food service activities;
+                                    Information and communication; Financial and insurance activities; Real estate
+                                    activities; Professional, scientific and technical services;</p>
+                            </option>
+
+                            <option
+                                value="Administrative and support service activities Education; Human health and social work activities; Activities of private households as employers and undifferentiated goods and services and producing activities of households for own  use; Activities of extraterritorial organizations and bodies">
+                                <p>
+                                    Administrative and support service activities Education; Human health and social
+                                    work activities; Activities of private households as employers and
+                                    undifferentiated goods and services and producing activities of households for
+                                    own use; Activities of extraterritorial organizations and bodies</p>
+                            </option>
+                            <option
+                                value="Frontline Service Worker (Public) providing civil registry, veterinary, agriculture, permits and licensing, engineering, zoning, treasury, tourism, utilities, economic enterprise, solid waste management, public safety, peace and order services">
+                                <p>
+                                    Frontline Service Worker (Public) providing civil registry, veterinary,
+                                    agriculture, permits and licensing, engineering, zoning, treasury, tourism,
+                                    utilities, economic enterprise, solid waste management, public safety, peace and
+                                    order services</p>
+                            </option>
+
+                            <option value="Indigent Population (not belonging to any of the preceding categories)">
+                                Indigent Population (not belonging to any of the preceding categories)</option>
+                            <option value="Teacher/Social Worker (Public/Private)">Teacher/Social Worker
+                                (Public/Private)</option>
+                            <option value="Other worker in the government">Other worker in the government</option>
+                            <option value="Other essential worker">Other essential worker</option>
+                            <option value="High-risk socio-demographic group (except senior citizens)">High-risk
+                                socio-demographic group (except senior citizens)</option>
+                            <option value="Overseas Filipino Worker">Overseas Filipino Worker</option>
+                            <option value="Other workforce">Other workforce</option>
+                            <option
+                                value="The rest of the city population not mentioned in any of the preceding categories">
+                                The rest of the city population not mentioned in any of the preceding categories
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label"> Nais mo bang mabakunahan kung meron na?/ Do you want to take the
+                            vaccine, if available?
+                            * </label>
+                        <select class="pe-4 form-select form-select-sm form-control-clicked consent " ng-model="registered.decision" name="consent" aria-label="Default select example">
+                            <option value="">Select</option>
+                            <option value="Opo/Yes">Opo/Yes</option>
+                            <option value="Hindi po/No">Hindi po/No</option>
+                            <option value="UNDECIDED">Hindi sigurado/Undecided</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group btn-group  btn-group-lg w-100">
+                        <button id="cancelbtn" class="btn btn-danger">
+                             CANCEL
+                            </button>
+
+                        <button id="updatebtn" class="btn btn-info">
+                              UPDATE
+                            </button>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

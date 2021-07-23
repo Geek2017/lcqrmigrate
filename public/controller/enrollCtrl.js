@@ -121,9 +121,25 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
                 console.log(snapshot.val());
 
-                returnArr.push(snapshot.val());
 
-                console.log(returnArr);
+
+                var sdata = {
+                    "uid": snapshot.key,
+                    "id": snapshot.val().id,
+                    "age": snapshot.val().age,
+                    "brgy": snapshot.val().brgy,
+                    "contactno": snapshot.val().contactno,
+                    "decision": snapshot.val().decision,
+                    "fullname": snapshot.val().fullname,
+                    "img": snapshot.val().img,
+                    "qrcode": snapshot.val().qrcode,
+                    "qrid": snapshot.val().qrid,
+                    "sex": snapshot.val().sex,
+                    "usertype": snapshot.val().usertype
+                }
+
+                returnArr.push(sdata);
+
 
                 $scope.currentPage = 1;
                 $scope.pageSize = 5;
@@ -136,18 +152,28 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                             $(".loader").hide();
                             $('table').hide()
                             $(".nodb").show()
-
                         } else {
                             $(".loader").hide();
                             $('table').show()
                             $(".nodb").hide()
                             console.log(JSON.parse(ldata))
                             $scope.registereds = JSON.parse(ldata);
-
-
                         }
                     });
                 });
+
+                // $timeout(function() {
+                //     $scope.$apply(function() {
+                //         let returnArr = [];
+                //         snapshot.forEach(childSnapshot => {
+                //             let item = childSnapshot.val();
+                //             item.key = childSnapshot.key;
+                //             returnArr.push(item);
+                //         });
+                //         $scope.registereds = returnArr;
+                //     });
+
+                // })
 
                 $scope.pageChangeHandler = function(num) {
                     console.log('pagedata page changed to ' + num);
@@ -1071,6 +1097,50 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
         window.location.reload();
 
     });
+
+
+    $("#exit2").click(function() {
+
+        window.location.href = '#/';
+        localStorage.clear();
+        window.location.reload();
+
+    });
+
+    $("#cancelbtn").click(function() {
+
+        $('#editinfo').modal('toggle');
+
+    });
+
+    var uid;
+    var pcontactno;
+
+    $("#updatebtn").click(function() {
+
+
+        var data = {
+            contactno: pcontactno,
+            brgy: $scope.registered.brgy,
+            decision: $scope.registered.decision,
+            fullname: $scope.registered.fullname,
+            usertype: $scope.registered.usertype
+        }
+
+        var updates = {};
+        updates['/registrant/' + uid] = data;
+        firebase.database().ref().update(updates, alert('Data Saved!'));
+
+
+    });
+
+
+    $scope.editinfo = function(registered) {
+        $('#editinfo').modal('show');
+        $scope.registered = registered;
+        console.log(registered)
+        return uid = registered.uid, pcontactno = registered.contactno;
+    }
 
 
 
