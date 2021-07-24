@@ -80,9 +80,9 @@
                                         <th>Brgy.</th>
                                         <th>Age</th>
                                         <th>Category</th>
-                                        <th class="w-40">Decision</th>
-                                        <th>Edit Info.</th>
-                                        <th>Print/Download</th>
+                                        <th>Decision</th>
+                                        <th colspan="2">Edit Info. | Print | Download</th>
+
 
 
                                     </tr>
@@ -97,14 +97,14 @@
                                         <td>{{registered.age}}</td>
                                         <td>{{registered.usertype}}</td>
                                         <td>{{registered.decision}}</td>
-                                        <td class="text-center buttons">
-                                            <button type="button" class="fa fa-pencil btn btn-warning btn-lg" data-ng-click="editinfo(registered)">
-                                                <strong class=""> Edit</strong>
+                                        <td class="text-center ">
+                                            <button type="button" class="fa fa-pencil btn btn-warning btn-lg w-100" data-ng-click="editinfo(registered)">
+                                                <strong class=""> EDIT</strong>
                                             </button>
                                         </td>
-                                        <td class="text-center buttons">
-                                            <button type="button" class="fa fa-qrcode btn btn-info btn-lg " data-ng-click="qrid(registered)"> 
-                                                <strong class="bqid"> View</strong>
+                                        <td class="text-center ">
+                                            <button type="button" class="fa fa-qrcode btn btn-info btn-lg w-100" data-ng-click="qrid(registered)"> 
+                                                <strong class="bqid"> VIEW</strong>
                                             </button>
                                         </td>
 
@@ -947,8 +947,8 @@
                                     <th colspan="2">
                                         <center><img width="30%" src="./assets/img/logo.png" alt=""><br>
                                             <strong>
-                                                <h4>Republic of the Philippines </h4>
-                                                <p >Municipality Of Sto Domingo Albay</p>
+                                                <h4>Republic of the Philippines</h4>
+                                                <p>Legazpi City</p>
                                             </strong>
 
                                             <strong>Covid-19</strong><br>
@@ -1000,7 +1000,7 @@
                     <div class="form-group mb-3">
                         <label class="form-label" for="address">Barangay</label>
 
-                        <select class="pe-4 form-select form-select-sm form-control-clicked Barangay" ng-model="registered.barangay" name="Barangay" aria-label="Default select example">
+                        <select class="pe-4 form-select form-select-sm form-control-clicked Barangay" ng-model="registered.brgy" name="Barangay" aria-label="Default select example">
                             <option value="">Select</option>
                             <option value="1‑Ems-Barrio"> 1‑Em's Barrio </option>
                             <option value="2‑Ems-Barrio South"> 2‑Em's Barrio South </option>
@@ -1153,7 +1153,7 @@
                             <option value="">Select</option>
                             <option value="Opo/Yes">Opo/Yes</option>
                             <option value="Hindi po/No">Hindi po/No</option>
-                            <option value="UNDECIDED">Hindi sigurado/Undecided</option>
+                            <option value="Hindi sigurado/Undecided">Hindi sigurado/Undecided</option>
                         </select>
                     </div>
 

@@ -1124,14 +1124,25 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             brgy: $scope.registered.brgy,
             decision: $scope.registered.decision,
             fullname: $scope.registered.fullname,
-            usertype: $scope.registered.usertype
+            usertype: $scope.registered.usertype,
+            qrid: $scope.registered.qrid,
+            sex: $scope.registered.sex,
+            age: $scope.registered.age,
+            img: $scope.registered.img,
+            qrcode: $scope.registered.qrcode,
+            jcinfo: $scope.registered.jcinfo,
+            jqna: $scope.registered.jqna,
+            footprint: $scope.registered.footprint
         }
+
+
+
 
         var updates = {};
         updates['/registrant/' + uid] = data;
-        firebase.database().ref().update(updates, alert('Data Saved!'));
-
-
+        firebase.database().ref().update(updates);
+        console.log(updates)
+        $('#editinfo').modal('toggle')
     });
 
 
