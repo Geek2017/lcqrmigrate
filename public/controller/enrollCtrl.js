@@ -163,18 +163,6 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                     });
                 });
 
-                // $timeout(function() {
-                //     $scope.$apply(function() {
-                //         let returnArr = [];
-                //         snapshot.forEach(childSnapshot => {
-                //             let item = childSnapshot.val();
-                //             item.key = childSnapshot.key;
-                //             returnArr.push(item);
-                //         });
-                //         $scope.registereds = returnArr;
-                //     });
-
-                // })
 
                 $scope.pageChangeHandler = function(num) {
                     console.log('pagedata page changed to ' + num);
