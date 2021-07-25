@@ -81,14 +81,14 @@
                                         <th>Age</th>
                                         <th>Category</th>
                                         <th>Decision</th>
-                                        <th colspan="2">Edit Info. | Print | Download</th>
+                                        <th colspan="2">Print|Download</th>
 
 
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr dir-paginate="registered in registereds | filter:q | itemsPerPage: pageSize ">
+                                    <tr dir-paginate="registered in registereds  | filter:q | itemsPerPage: pageSize ">
 
                                         <td>{{registereds.indexOf(registered) + 1}}</td>
                                         <td>{{registered.fullname}}</td>
@@ -97,18 +97,16 @@
                                         <td>{{registered.age}}</td>
                                         <td>{{registered.usertype}}</td>
                                         <td>{{registered.decision}}</td>
-                                        <td class="text-center ">
+                                        <!-- <td class="text-center ">
                                             <button type="button" class="fa fa-pencil btn btn-warning btn-lg w-100" data-ng-click="editinfo(registered)">
                                                 <strong class=""> EDIT</strong>
                                             </button>
-                                        </td>
+                                        </td> -->
                                         <td class="text-center ">
                                             <button type="button" class="fa fa-qrcode btn btn-info btn-lg w-100" data-ng-click="qrid(registered)"> 
                                                 <strong class="bqid"> VIEW</strong>
                                             </button>
                                         </td>
-
-
                                     </tr>
                                 </tbody>
                             </table>
@@ -1145,17 +1143,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label"> Nais mo bang mabakunahan kung meron na?/ Do you want to take the
-                            vaccine, if available?
-                            * </label>
-                        <select class="pe-4 form-select form-select-sm form-control-clicked consent " ng-model="registered.decision" name="consent" aria-label="Default select example">
-                            <option value="">Select</option>
-                            <option value="Opo/Yes">Opo/Yes</option>
-                            <option value="Hindi po/No">Hindi po/No</option>
-                            <option value="Hindi sigurado/Undecided">Hindi sigurado/Undecided</option>
-                        </select>
-                    </div>
+
 
                     <div class="form-group btn-group  btn-group-lg w-100">
                         <button id="cancelbtn" class="btn btn-danger">

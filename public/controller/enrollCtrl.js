@@ -135,7 +135,8 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                     "qrcode": snapshot.val().qrcode,
                     "qrid": snapshot.val().qrid,
                     "sex": snapshot.val().sex,
-                    "usertype": snapshot.val().usertype
+                    "usertype": snapshot.val().usertype,
+                    "created_at": snapshot.val().created_at
                 }
 
                 returnArr.push(sdata);
@@ -1128,15 +1129,8 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             qrid: $scope.registered.qrid,
             sex: $scope.registered.sex,
             age: $scope.registered.age,
-            img: $scope.registered.img,
-            qrcode: $scope.registered.qrcode,
-            jcinfo: $scope.registered.jcinfo,
-            jqna: $scope.registered.jqna,
-            footprint: $scope.registered.footprint
+            created_at: $scope.registered.created_at
         }
-
-
-
 
         var updates = {};
         updates['/registrant/' + uid] = data;
@@ -1147,10 +1141,15 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
 
     $scope.editinfo = function(registered) {
-        $('#editinfo').modal('show');
-        $scope.registered = registered;
-        console.log(registered)
-        return uid = registered.uid, pcontactno = registered.contactno;
+        if (registered.decision == "Opo/Yes") {
+            $('#editinfo').modal('show');
+            $scope.registered = registered;
+            console.log(registered)
+            return uid = registered.uid, pcontactno = registered.contactno;
+        } else {
+            alert("Only Affirmative Registrant is allowed to edit for further assistance contact support!");
+        }
+
     }
 
 
