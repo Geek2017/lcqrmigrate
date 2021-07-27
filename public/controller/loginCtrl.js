@@ -22,11 +22,16 @@ angular.module('QrApp').controller('loginCtrl', function($scope) {
 
         var time = h + ":" + m + ":" + s + " " + session;
 
+        console.log(parseInt(h))
 
-
-        if (h >= 17) {
-            console.log('cut off')
+        if (parseInt(h) >= 17 || parseInt(h) <= 7) {
+            console.log(h, 'Closed')
             $("#showit").attr("disabled", true);
+            $("#notice").show();
+        } else {
+            console.log(h, 'Open')
+            $("#showit").attr("disabled", false);
+            $("#notice").hide();
         }
 
 
