@@ -1,6 +1,45 @@
 angular.module('QrApp').controller('loginCtrl', function($scope) {
 
+    function showTime() {
+        var date = new Date();
+        var h = date.getHours(); // 0 - 23
+        var m = date.getMinutes(); // 0 - 59
+        var s = date.getSeconds(); // 0 - 59
+        var session = "AM";
+
+        if (h == 0) {
+            h = 24;
+        }
+
+        if (h > 24) {
+            h = h - 24;
+            session = "PM";
+        }
+
+        h = (h < 10) ? "0" + h : h;
+        m = (m < 10) ? "0" + m : m;
+        s = (s < 10) ? "0" + s : s;
+
+        var time = h + ":" + m + ":" + s + " " + session;
+
+
+
+        if (h >= 17) {
+            console.log('cut off')
+            $("#showit").attr("disabled", true);
+        }
+
+
+
+        setTimeout(showTime, 1000);
+
+    }
+
+    showTime();
+
+
     var effectAry = ['flash', 'tada'];
+
     var data = {
         loop: true,
         in: {
@@ -13,6 +52,7 @@ angular.module('QrApp').controller('loginCtrl', function($scope) {
             }
         },
     };
+
     $('.hoge').textillate(data);
     $('.hoge').on('start.tlt', console.log('-----start.tlt triggered.'))
         .on('inAnimationBegin.tlt', console.log('inAnimationBegin.tlt triggered.'))

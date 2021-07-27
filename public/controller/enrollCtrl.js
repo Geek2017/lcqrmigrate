@@ -62,7 +62,8 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
         if (user) {
             console.log(user)
-
+            getRandomCode();
+            getRandomCode1();
 
             var ref = firebase.database().ref("registrant");
 
@@ -92,9 +93,23 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             // $(".nodb").show()
 
 
-            var time = 60;
+            var time = 100;
             // Countdown
-            getRandomCode();
+
+
+            function getRandomCode1() {
+                if (time === 0) {
+                    time = 60;
+                    return;
+                } else {
+                    time--;
+
+                    $('#timer1').text(time);
+                }
+                setTimeout(function() {
+                    getRandomCode1();
+                }, 1000);
+            }
 
             function getRandomCode() {
                 if (time === 0) {
@@ -103,6 +118,7 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                 } else {
                     time--;
                     $('#timer').text(time);
+                    $('#timer1').text(time);
                 }
                 setTimeout(function() {
                     getRandomCode();
@@ -932,7 +948,7 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             $('table').hide();
             $("#submit").prop("disabled", true);
 
-            var fnstr = $scope.lastName + ", " + $scope.middleName + " " + $scope.firstName;
+            var fnstr = $scope.lastName + ", " + $scope.firstName + " " + $scope.middleName;
 
             var newfn = fnstr.replace(/undefined/i, " ");
 
@@ -958,7 +974,8 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                 qrcode: qrdata1,
                 jcinfo: strjcinfo,
                 jqna: strjqna,
-                footprint: ldata
+                footprint: ldata,
+                created_at: firebase.database.ServerValue.TIMESTAMP
             }
 
 
@@ -1036,7 +1053,8 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                 qrcode: "N/A",
                 jcinfo: "N/A",
                 jqna: "N/A",
-                footprint: ldata
+                footprint: ldata,
+                created_at: firebase.database.ServerValue.TIMESTAMP
             }
 
             console.log(data);
