@@ -5,7 +5,7 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
     $('.mainhid').hide();
     $('.scroll').hide();
     $('table').hide();
-
+    $('.command').hide();
 
     $("#rasd").click(function() {
         $('.mainhid').show();
@@ -63,7 +63,7 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
         if (user) {
             console.log(user)
             getRandomCode();
-            getRandomCode1();
+
 
             var ref = firebase.database().ref("registrant");
 
@@ -93,37 +93,24 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             // $(".nodb").show()
 
 
-            var time = 100;
-            // Countdown
+            var time = 160;
 
 
-            function getRandomCode1() {
-                if (time === 0) {
-                    time = 60;
-                    return;
-                } else {
-                    time--;
-
-                    $('#timer1').text(time);
-                }
-                setTimeout(function() {
-                    getRandomCode1();
-                }, 1000);
-            }
 
             function getRandomCode() {
                 if (time === 0) {
-                    time = 60;
-                    return;
+
+                    return time = 160;
                 } else {
                     time--;
                     $('#timer').text(time);
-                    $('#timer1').text(time);
                 }
                 setTimeout(function() {
                     getRandomCode();
                 }, 1000);
             }
+
+
 
             let returnArr = []
 
@@ -173,7 +160,11 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                             $(".loader").hide();
                             $('table').show()
                             $(".nodb").hide()
-                            console.log(JSON.parse(ldata))
+                            console.log(JSON.parse(ldata));
+
+                            $('.command').show();
+                            $('.loaders').hide();
+
                             $scope.registereds = JSON.parse(ldata);
                         }
                     });
