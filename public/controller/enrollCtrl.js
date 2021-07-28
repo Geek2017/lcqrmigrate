@@ -63,15 +63,20 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
         if (user) {
             console.log(user)
             getRandomCode();
+            randomString();
+
+            function randomString() {
+                var chars = "0123456789";
+                var string_length = 6;
+                var randomstring = '';
+                for (var i = 0; i < string_length; i++) {
+                    var rnum = Math.floor(Math.random() * chars.length);
+                    randomstring += chars.substring(rnum, rnum + 1);
+                }
+                // document.order.randomfield.value =  randomstring;
 
 
-            var ref = firebase.database().ref("registrant");
-
-            ref.on("value", function(snapshot) {
-
-                const rdata = snapshot.numChildren();
-
-                var equ = parseInt(rdata) + 1;
+                var equ = randomstring;
 
                 var num = user.phoneNumber;
 
@@ -80,11 +85,20 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                 $('.mobileno').val(num);
 
                 var nnum = num.replace("+", "");
+            }
+
+            // var ref = firebase.database().ref("registrant");
+
+            // ref.on("value", function(snapshot) {
+
+            //     const rdata = snapshot.numChildren();
 
 
 
 
-            });
+
+
+            // });
 
             var nnum = user.phoneNumber.replace("+", "");
 
@@ -93,14 +107,15 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
             // $(".nodb").show()
 
 
-            var time = 160;
+            var time = 10;
 
 
 
             function getRandomCode() {
                 if (time === 0) {
-
-                    return time = 160;
+                    $('.command').show();
+                    $('.loaders').hide();
+                    return time = 10;
                 } else {
                     time--;
                     $('#timer').text(time);
@@ -120,66 +135,66 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
             console.log(cnnum);
 
-            ref.orderByChild('contactno').equalTo(parseInt(nnum, 10)).on('child_added', (snapshot) => {
+            // ref.orderByChild('contactno').equalTo(parseInt(nnum, 10)).on('child_added', (snapshot) => {
 
-                console.log(snapshot.val());
-
-
-
-                var sdata = {
-                    "uid": snapshot.key,
-                    "id": snapshot.val().id,
-                    "age": snapshot.val().age,
-                    "brgy": snapshot.val().brgy,
-                    "contactno": snapshot.val().contactno,
-                    "decision": snapshot.val().decision,
-                    "fullname": snapshot.val().fullname,
-                    "img": snapshot.val().img,
-                    "qrcode": snapshot.val().qrcode,
-                    "qrid": snapshot.val().qrid,
-                    "sex": snapshot.val().sex,
-                    "usertype": snapshot.val().usertype,
-                    "created_at": snapshot.val().created_at
-                }
-
-                returnArr.push(sdata);
+            //     console.log(snapshot.val());
 
 
-                $scope.currentPage = 1;
-                $scope.pageSize = 5;
-                $scope.pagedata = [];
 
-                $timeout(function() {
-                    var ldata = JSON.stringify(returnArr);
-                    $scope.$apply(function() {
-                        if (!ldata) {
-                            $(".loader").hide();
-                            $('table').hide()
-                            $(".nodb").show()
-                        } else {
-                            $(".loader").hide();
-                            $('table').show()
-                            $(".nodb").hide()
-                            console.log(JSON.parse(ldata));
+            //     var sdata = {
+            //         "uid": snapshot.key,
+            //         "id": snapshot.val().id,
+            //         "age": snapshot.val().age,
+            //         "brgy": snapshot.val().brgy,
+            //         "contactno": snapshot.val().contactno,
+            //         "decision": snapshot.val().decision,
+            //         "fullname": snapshot.val().fullname,
+            //         "img": snapshot.val().img,
+            //         "qrcode": snapshot.val().qrcode,
+            //         "qrid": snapshot.val().qrid,
+            //         "sex": snapshot.val().sex,
+            //         "usertype": snapshot.val().usertype,
+            //         "created_at": snapshot.val().created_at
+            //     }
 
-                            $('.command').show();
-                            $('.loaders').hide();
-
-                            $scope.registereds = JSON.parse(ldata);
-                        }
-                    });
-                });
+            //     returnArr.push(sdata);
 
 
-                $scope.pageChangeHandler = function(num) {
-                    console.log('pagedata page changed to ' + num);
-                };
+            //     $scope.currentPage = 1;
+            //     $scope.pageSize = 5;
+            //     $scope.pagedata = [];
 
-                $scope.pageChangeHandler = function(num) {
-                    console.log('going to page ' + num);
-                };
+            //     // $timeout(function() {
+            //     //     var ldata = JSON.stringify(returnArr);
+            //     //     $scope.$apply(function() {
+            //     //         if (!ldata) {
+            //     //             $(".loader").hide();
+            //     //             $('table').hide()
+            //     //             $(".nodb").show()
+            //     //         } else {
+            //     //             $(".loader").hide();
+            //     //             $('table').show()
+            //     //             $(".nodb").hide()
+            //     //             console.log(JSON.parse(ldata));
 
-            });
+            //     //             $('.command').show();
+            //     //             $('.loaders').hide();
+
+            //     //             $scope.registereds = JSON.parse(ldata);
+            //     //         }
+            //     //     });
+            //     // });
+
+
+            //     $scope.pageChangeHandler = function(num) {
+            //         console.log('pagedata page changed to ' + num);
+            //     };
+
+            //     $scope.pageChangeHandler = function(num) {
+            //         console.log('going to page ' + num);
+            //     };
+
+            // });
 
 
         } else {
@@ -989,7 +1004,9 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
                 if (updates && userimg[0] && qrdata1) {
 
-                    console.log(updates, userimg[0], qrdata1)
+                    console.log(updates)
+
+                    console.log(userimg[0], qrdata1)
 
                     $(".loading1").removeClass("hidden")
                     $(".loading0").addClass("hidden")
