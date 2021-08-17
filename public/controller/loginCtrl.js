@@ -130,9 +130,10 @@ angular.module('QrApp').controller('loginCtrl', function($scope) {
     $('#container').hide()
 
     $("#showit").click(function() {
-        $('#container').show()
-        $('#showit').hide()
-        $(".css").css("padding-top", "0%");
+        // $('#container').show()
+        // $('#showit').hide()
+        // $(".css").css("padding-top", "0%");
+        window.location.href = '#/enroll';
     });
 
     function getUiConfig() {

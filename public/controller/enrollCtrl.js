@@ -17,7 +17,6 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
 
     $("#lmsd").click(function() {
-
         $('#btnsd').show();
         $('table').show();
         $('.scroll').show();
@@ -60,145 +59,34 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
     firebase.auth().onAuthStateChanged(function(user) {
 
-        if (user) {
-            console.log(user)
-            getRandomCode();
-            randomString();
+        console.log(user)
+        getRandomCode();
 
-            function randomString() {
-                var chars = "0123456789";
-                var string_length = 6;
-                var randomstring = '';
-                for (var i = 0; i < string_length; i++) {
-                    var rnum = Math.floor(Math.random() * chars.length);
-                    randomstring += chars.substring(rnum, rnum + 1);
-                }
-                // document.order.randomfield.value =  randomstring;
+        firebase.database().ref('/totalcount/').orderByChild('count').on("value", function(snapshot) {
+            var rdata = snapshot.val().count
 
+            let covaxid = parseInt(rdata) + 1
+            console.log(covaxid)
 
-                var equ = randomstring;
+            $('.covaxid').val("CoVax No-" + covaxid);
+        })
 
-                var num = user.phoneNumber;
+        var time = 10;
 
-                $('.covaxid').val("CoVax No-" + equ);
+        $('#timer').text(10);
 
-                $('.mobileno').val(num);
-
-                var nnum = num.replace("+", "");
+        function getRandomCode() {
+            if (time === 0) {
+                $('.command').show();
+                $('.loaders').hide();
+                return time = 10;
+            } else {
+                time--;
+                $('#timer').text(time);
             }
-
-            // var ref = firebase.database().ref("registrant");
-
-            // ref.on("value", function(snapshot) {
-
-            //     const rdata = snapshot.numChildren();
-
-
-
-
-
-
-            // });
-
-            var nnum = user.phoneNumber.replace("+", "");
-
-            // $(".loader").hide();
-            // $('table').hide()
-            // $(".nodb").show()
-
-
-            var time = 10;
-
-
-
-            function getRandomCode() {
-                if (time === 0) {
-                    $('.command').show();
-                    $('.loaders').hide();
-                    return time = 10;
-                } else {
-                    time--;
-                    $('#timer').text(time);
-                }
-                setTimeout(function() {
-                    getRandomCode();
-                }, 1000);
-            }
-
-
-
-            let returnArr = []
-
-            console.log(parseInt(nnum, 10));
-
-            let cnnum = nnum;
-
-            console.log(cnnum);
-
-            // ref.orderByChild('contactno').equalTo(parseInt(nnum, 10)).on('child_added', (snapshot) => {
-
-            //     console.log(snapshot.val());
-
-
-
-            //     var sdata = {
-            //         "uid": snapshot.key,
-            //         "id": snapshot.val().id,
-            //         "age": snapshot.val().age,
-            //         "brgy": snapshot.val().brgy,
-            //         "contactno": snapshot.val().contactno,
-            //         "decision": snapshot.val().decision,
-            //         "fullname": snapshot.val().fullname,
-            //         "img": snapshot.val().img,
-            //         "qrcode": snapshot.val().qrcode,
-            //         "qrid": snapshot.val().qrid,
-            //         "sex": snapshot.val().sex,
-            //         "usertype": snapshot.val().usertype,
-            //         "created_at": snapshot.val().created_at
-            //     }
-
-            //     returnArr.push(sdata);
-
-
-            //     $scope.currentPage = 1;
-            //     $scope.pageSize = 5;
-            //     $scope.pagedata = [];
-
-            //     // $timeout(function() {
-            //     //     var ldata = JSON.stringify(returnArr);
-            //     //     $scope.$apply(function() {
-            //     //         if (!ldata) {
-            //     //             $(".loader").hide();
-            //     //             $('table').hide()
-            //     //             $(".nodb").show()
-            //     //         } else {
-            //     //             $(".loader").hide();
-            //     //             $('table').show()
-            //     //             $(".nodb").hide()
-            //     //             console.log(JSON.parse(ldata));
-
-            //     //             $('.command').show();
-            //     //             $('.loaders').hide();
-
-            //     //             $scope.registereds = JSON.parse(ldata);
-            //     //         }
-            //     //     });
-            //     // });
-
-
-            //     $scope.pageChangeHandler = function(num) {
-            //         console.log('pagedata page changed to ' + num);
-            //     };
-
-            //     $scope.pageChangeHandler = function(num) {
-            //         console.log('going to page ' + num);
-            //     };
-
-            // });
-
-
-        } else {
-            window.location.href = "./"
+            setTimeout(function() {
+                getRandomCode();
+            }, 1000);
         }
 
     });
@@ -1002,9 +890,24 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
 
                 firebase.database().ref().update(updates);
 
+                console.log(updates);
+
                 if (updates && userimg[0] && qrdata1) {
 
-                    console.log(updates)
+                    var numcovaxid = $('.covaxid').val();
+
+                    let ncovax = numcovaxid.replace(/[^0-9]/g, '');
+
+                    var cvalue = {
+                        count: ncovax
+                    }
+
+                    var updatesc = {};
+                    updatesc['/totalcount/'] = cvalue;
+
+                    firebase.database().ref().update(updatesc);
+
+                    console.log(updatesc);
 
                     console.log(userimg[0], qrdata1)
 
@@ -1080,6 +983,22 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
                 firebase.database().ref().update(updates);
 
                 if (updates) {
+
+                    var numcovaxid = $('.covaxid').val();
+
+                    let ncovax = numcovaxid.replace(/[^0-9]/g, '');
+
+                    var cvalue = {
+                        count: ncovax
+                    }
+
+                    var updatesc = {};
+                    updatesc['/totalcount/'] = cvalue;
+
+                    firebase.database().ref().update(updatesc);
+
+                    console.log(updatesc);
+
                     $('#staticBackdrop').modal('show');
                     console.log(updates)
                     setTimeout(function() {
@@ -1260,10 +1179,4 @@ angular.module('QrApp').controller('enrollCtrl', function($scope, $http, $filter
     }
 
 
-}).filter('startFrom', function() {
-    return function(input, start) {
-        if (!input || !input.length) { return; }
-        start = +start; //parse to int
-        return input.slice(start);
-    }
-});
+})
